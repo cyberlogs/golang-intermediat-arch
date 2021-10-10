@@ -11,34 +11,8 @@ type Person struct {
 }
 
 func main() {
-	// p1 := Person{
-	// 	First: "John",
-	// }
-
-	// p2 := Person{
-	// 	First: "Jan",
-	// }
-
-	// xp := []Person{p1, p2}
-
-	// bs, err := json.Marshal(xp)
-	// if err != nil {
-	// 	log.Panic(err)
-	// }
-
-	// fmt.Println(string(bs))
-
-	// xp2 := []Person{}
-
-	// err = json.Unmarshal(bs, &xp2)
-	// if err != nil {
-	// 	log.Panic(err)
-	// }
-
-	// fmt.Println("back into a Go data structure", xp2)
 
 	http.HandleFunc("/encode", foo)
-	http.HandleFunc("/decode", bar)
 	http.ListenAndServe(":8080", nil)
 
 }
@@ -48,17 +22,14 @@ func foo(w http.ResponseWriter, r *http.Request) {
 		First: "John",
 	}
 
-	err := json.NewEncoder(w).Encode(p1)
+	p2 := Person{
+		First: "Jane",
+	}
+
+	people := []Person{p1, p2}
+
+	err := json.NewEncoder(w).Encode(people)
 	if err != nil {
 		log.Println("Encoded bad data!", err)
 	}
-}
-
-func bar(w http.ResponseWriter, r *http.Request) {
-	var p1 Person
-	err := json.NewDecoder(r.Body).Decode(&p1)
-	if err != nil {
-		log.Println("Decoded bad data!", err)
-	}
-	log.Println("Person:", p1)
 }
