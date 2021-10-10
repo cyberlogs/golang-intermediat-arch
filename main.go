@@ -28,4 +28,13 @@ func main() {
 
 	fmt.Println(string(bs))
 
+	xp2 := []Person{}
+
+	err = json.Unmarshal(bs, &xp2)
+	if err != nil {
+		log.Panic(err)
+	}
+
+	fmt.Println("back into a Go data structure", xp2)
+
 }
